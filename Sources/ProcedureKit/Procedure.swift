@@ -367,7 +367,7 @@ open class Procedure: Operation, ProcedureProtocol {
 
     // MARK: Errors
 
-    public var errors: [Error] {
+    open var errors: [Error] {
         return stateLock.withCriticalScope { _errors }
     }
 
@@ -1354,7 +1354,7 @@ open class Procedure: Operation, ProcedureProtocol {
 
 // MARK: Dependencies
 
-public extension Procedure {
+extension Procedure {
 
     public final func add<Dependency: ProcedureProtocol>(dependency: Dependency) {
         guard let op = dependency as? Operation else {
@@ -1646,7 +1646,7 @@ extension Procedure {
         super.removeDependency(directDependency)
     }
 
-    public final override var dependencies: [Operation] {
+    final override public var dependencies: [Operation] {
         return Array(directDependencies)
     }
 
@@ -1659,7 +1659,7 @@ extension Procedure {
      to a queue, or is waiting on dependencies.
      - parameter operation: a `Operation` instance.
      */
-    public final override func addDependency(_ operation: Operation) {
+    open override func addDependency(_ operation: Operation) {
         precondition(state < .started, "Dependencies cannot be modified after a Procedure has started, current state: \(state).")
         add(directDependency: operation)
     }
@@ -1674,7 +1674,7 @@ extension Procedure {
      to a queue, or is waiting on dependencies.
      - parameter operation: a `Operation` instance.
      */
-    public final override func removeDependency(_ operation: Operation) {
+    open override func removeDependency(_ operation: Operation) {
         precondition(state < .started, "Dependencies cannot be modified after a Procedure has started, current state: \(state).")
         remove(directDependency: operation)
     }
