@@ -406,7 +406,7 @@ open class Procedure: Operation, ProcedureProtocol {
 
     // MARK: Errors
 
-    final public var error: Error? {
+    open var error: Error? {
         get { return synchronise { _error } }
         set {
             synchronise {
@@ -1435,7 +1435,7 @@ open class Procedure: Operation, ProcedureProtocol {
 
 // MARK: Dependencies
 
-public extension Procedure {
+extension Procedure {
 
     public final func addDependency<Dependency: ProcedureProtocol>(_ dependency: Dependency) {
         guard let op = dependency as? Operation else {
@@ -1722,7 +1722,7 @@ extension Procedure {
         super.removeDependency(directDependency)
     }
 
-    public final override var dependencies: [Operation] {
+    final override public var dependencies: [Operation] {
         return Array(directDependencies)
     }
 
@@ -1735,7 +1735,7 @@ extension Procedure {
      to a queue, or is waiting on dependencies.
      - parameter operation: a `Operation` instance.
      */
-    public final override func addDependency(_ operation: Operation) {
+    open override func addDependency(_ operation: Operation) {
         precondition(state < .started, "Dependencies cannot be modified after a Procedure has started, current state: \(state).")
         addDirectDependency(operation)
     }
@@ -1750,7 +1750,7 @@ extension Procedure {
      to a queue, or is waiting on dependencies.
      - parameter operation: a `Operation` instance.
      */
-    public final override func removeDependency(_ operation: Operation) {
+    open override func removeDependency(_ operation: Operation) {
         precondition(state < .started, "Dependencies cannot be modified after a Procedure has started, current state: \(state).")
         removeDirectDependency(operation)
     }
