@@ -456,7 +456,7 @@ open class Procedure: Operation, ProcedureProtocol {
      ```
 
      */
-    final public var log: ProcedureLog {
+    open var log: ProcedureLog {
         get { return synchronise { protectedProperties.log } }
         set { synchronise { protectedProperties.log = newValue } }
     }
